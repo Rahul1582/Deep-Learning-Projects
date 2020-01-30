@@ -3,7 +3,7 @@
 With the use of deep learning, I recognized the handwritten digits (0 to 9) from the famous MNIST dataset using Convolution neural network(CNN).
 
 ### Technologies Used
-``
+
 Tensorflow,Keras,CNN..
 
 
