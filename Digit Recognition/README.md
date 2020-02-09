@@ -9,7 +9,7 @@ Tensorflow,Keras,CNN..
 
 ### Screenshot
 
-<img src ='https://github.com/Rahul1582/Deep-Learning-Projects/blob/master/result.PNG' width=850 height=450>
+<img src ='https://github.com/Rahul1582/Deep-Learning-Projects/blob/master/Digit%20Recognition/result.PNG' width=850 height=450>
 
 
 
