@@ -33,7 +33,7 @@ emotion_classifier = load_model(emotion_model_path)
 # getting input model shapes for inference
 emotion_target_size = emotion_classifier.input_shape[1:3]
 
-# starting lists for calculating modes
+# starting lists for calculating modesA chrome driver must be downloaded to use this librA chrome driver must be downloaded to use this library. See this page for details.ary. See this page for details.
 emotion_window = []
 
 # starting video streaming
