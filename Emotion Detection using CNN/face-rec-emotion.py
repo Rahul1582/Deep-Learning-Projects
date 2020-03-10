@@ -19,7 +19,7 @@ USE_WEBCAM = True # If false, loads video file source
 emotion_model_path = './models/emotion_model.hdf5'
 emotion_labels = get_labels('fer2013')
 
-# hyper-parameters for bounding boxes shape
+
 frame_window = 10
 emotion_offsets = (20, 40)
 
