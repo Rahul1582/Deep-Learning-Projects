@@ -29,10 +29,10 @@ emotion_classifier = load_model(emotion_model_path)
 
 # predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
 
-# getting input model shapes for inference
+
 emotion_target_size = emotion_classifier.input_shape[1:3]
 
-# starting lists for calculating modes
+
 emotion_window = []
 
 # Load a sample picture and learn how to recognize it.
@@ -112,7 +112,7 @@ def face_compare(frame,process_this_frame):
         cv2.putText(frame, name, (left + 6, bottom+20), font, 0.3, (255, 255, 255), 1)
         print ("text print")
 
-# starting video streaming
+
 
 cv2.namedWindow('window_frame')
 video_capture = cv2.VideoCapture(0)
