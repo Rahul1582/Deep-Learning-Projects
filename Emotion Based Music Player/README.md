@@ -1,4 +1,4 @@
-# Emotion_Based_MUsic_Player
+# Emotion_Based_Music_Player
 
 
 
