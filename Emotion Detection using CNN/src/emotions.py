@@ -8,6 +8,8 @@ from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.layers import MaxPooling2D
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
+USE_WEBCAM= False  # If true then it will use the webcam,untill it is False will detect the emotions in a video
+
 
 # command line argument
 ap = argparse.ArgumentParser()
@@ -71,6 +73,8 @@ if run == "train":
    
     model.save_weights('model.h5')
 
+
+
 # emotions will be displayed on your face from the webcam feed
 elif run == "test":
     model.load_weights('model.h5')
@@ -82,7 +86,12 @@ elif run == "test":
     emotion_dict = {0: "Angry", 1: "Disgusted", 2: "Fearful", 3: "Happy", 4: "Neutral", 5: "Sad", 6: "Surprised"}
 
     # start the webcam feed
-    cap = cv2.VideoCapture(0)
+    cap = None
+    if (USE_WEBCAM == True):
+       cap = cv2.VideoCapture(0) # Webcam source
+    else:
+       cap = cv2.VideoCapture('./test/testvdo.mp4')
+       
     while True:
         # Find haar cascade to draw bounding box around face
         ret, frame = cap.read()
