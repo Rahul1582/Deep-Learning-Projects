@@ -7,13 +7,12 @@ from tensorflow.keras.layers import Conv2D
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.layers import MaxPooling2D
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
-import os
 
 
 # command line argument
 ap = argparse.ArgumentParser()
-ap.add_argument("--mode",help="train/display")
-mode = ap.parse_args().mode
+ap.add_argument("--run",help="train/test")
+run = ap.parse_args().run
 
 #data generators
 train_dir = 'data/train'
@@ -61,7 +60,7 @@ model.add(Dropout(0.5))
 model.add(Dense(7, activation='softmax'))
 
 # If you want to train the same model or try other models, go for this
-if mode == "train":
+if run == "train":
     model.compile(loss='categorical_crossentropy',optimizer=Adam(lr=0.0001, decay=1e-6),metrics=['accuracy'])
     model_info = model.fit_generator(
             train_generator,
@@ -73,7 +72,7 @@ if mode == "train":
     model.save_weights('model.h5')
 
 # emotions will be displayed on your face from the webcam feed
-elif mode == "display":
+elif run == "test":
     model.load_weights('model.h5')
 
     # prevents openCL usage and unnecessary logging messages
