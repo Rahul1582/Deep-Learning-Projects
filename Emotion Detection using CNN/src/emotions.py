@@ -20,10 +20,10 @@ run = ap.parse_args().run
 train_dir = 'data/train'
 test_dir = 'data/test'
 
-num_train = 28709
-num_val = 7178
+train_num = 28709
+test_num = 7178
 batch_size = 64
-num_epoch = 40
+epochs = 50
 
 train_datagen = ImageDataGenerator(rescale=1./255)
 val_datagen = ImageDataGenerator(rescale=1./255)
@@ -61,17 +61,60 @@ model.add(Dense(1024, activation='relu'))
 model.add(Dropout(0.5))
 model.add(Dense(7, activation='softmax'))
 
-# If you want to train the same model or try other models, go for this
+
+# If you want to train the same model
 if run == "train":
     model.compile(loss='categorical_crossentropy',optimizer=Adam(lr=0.0001, decay=1e-6),metrics=['accuracy'])
     model_info = model.fit_generator(
             train_generator,
-            steps_per_epoch=num_train // batch_size,
-            epochs=num_epoch,
+            steps_per_epoch=train_num // batch_size,
+            epochs=epochs,
             validation_data=validation_generator,
-            validation_steps=num_val // batch_size)
+            validation_steps=test_num // batch_size)
    
-    model.save_weights('model.h5')
+    model.save_weights('model_2.h5')
+
+
+elif run =="picture":
+    model.load_weights('model.h5')
+
+    # prevents openCL usage and unnecessary logging messages
+    cv2.ocl.setUseOpenCL(False)
+   # dictionary which assigns each label an emotion (alphabetical order)
+    emotion_dict = {0: "ANGRY", 1: "DISGUSTED", 2: "FEARFUL", 3: "HAPPY", 4: "NEUTRAL", 5: "SAD", 6: "SURPRISED"}
+    
+
+    imagepath = "./test/friends.jpg"
+    
+    img = cv2.imread(imagepath,0)
+
+    print(img)
+
+    while True:
+
+        facecasc = cv2.CascadeClassifier('haarcascade_frontalface_default.xml') 
+
+        faces = facecasc.detectMultiScale(img,scaleFactor=1.3, minNeighbors=5)
+
+        for (x, y, w, h) in faces:
+            cv2.rectangle(img, (x, y-90), (x+w, y+h+10), (255, 0, 0), 2)
+            roi_gray = img[y:y + h, x:x + w]
+            cropped_img = np.expand_dims(np.expand_dims(cv2.resize(roi_gray, (48, 48)), -1), 0)
+            prediction = model.predict(cropped_img)
+            # print(prediction)
+            maxindex = int(np.argmax(prediction))
+            # print(maxindex)
+            cv2.putText(img, emotion_dict[maxindex], (x+20, y-80), cv2.FONT_HERSHEY_DUPLEX, 3, (0, 0, 0), 4, cv2.LINE_AA)
+
+    # cv2.imshow('Video', cv2.resize(img,(1400,1200),interpolation = cv2.INTER_CUBIC))
+    #     if cv2.waitKey(1) & 0xFF == ord('q'):
+    #         break
+
+        cv2.imshow('Picture', cv2.resize(img,(1400,1200),interpolation = cv2.INTER_CUBIC))
+        
+    
+    cv2.destroyAllWindows()
+
 
 
 
@@ -81,9 +124,12 @@ elif run == "test":
 
     # prevents openCL usage and unnecessary logging messages
     cv2.ocl.setUseOpenCL(False)
-
-    # dictionary which assigns each label an emotion (alphabetical order)
+   # dictionary which assigns each label an emotion (alphabetical order)
     emotion_dict = {0: "ANGRY", 1: "DISGUSTED", 2: "FEARFUL", 3: "HAPPY", 4: "NEUTRAL", 5: "SAD", 6: "SURPRISED"}
+    
+    
+  
+
 
 
     cap = None
@@ -102,12 +148,14 @@ elif run == "test":
         faces = facecasc.detectMultiScale(gray,scaleFactor=1.3, minNeighbors=5)
 
         for (x, y, w, h) in faces:
-            cv2.rectangle(frame, (x, y-50), (x+w, y+h+10), (255, 0, 0), 2)
+            cv2.rectangle(frame, (x, y-30), (x+w, y+h+10), (255, 0, 0), 2)
             roi_gray = gray[y:y + h, x:x + w]
             cropped_img = np.expand_dims(np.expand_dims(cv2.resize(roi_gray, (48, 48)), -1), 0)
             prediction = model.predict(cropped_img)
+            # print(prediction)
             maxindex = int(np.argmax(prediction))
-            cv2.putText(frame, emotion_dict[maxindex], (x+20, y-60), cv2. FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
+            # print(maxindex)
+            cv2.putText(frame, emotion_dict[maxindex], (x+20, y-40), cv2. FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
 
         cv2.imshow('Video', cv2.resize(frame,(1400,1200),interpolation = cv2.INTER_CUBIC))
         if cv2.waitKey(1) & 0xFF == ord('q'):
