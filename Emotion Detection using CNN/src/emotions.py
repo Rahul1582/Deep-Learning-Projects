@@ -1,24 +1,24 @@
 import numpy as np
-import argparse
 import cv2
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Dropout, Flatten
-from tensorflow.keras.layers import Conv2D
-from tensorflow.keras.optimizers import Adam
-from tensorflow.keras.layers import MaxPooling2D
+from tensorflow.keras.layers import Conv2D,MaxPooling2D,Dense,Dropout,Flatten
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from tensorflow.keras.optimizers import Adam
+
+import argparse
+
 
 USE_WEBCAM= False  # If true then it will use the webcam,untill it is False will detect the emotions in a video
 
+# Command Line Argument
 
-# command line argument
 ap = argparse.ArgumentParser()
 ap.add_argument("--run",help="train/test")
 run = ap.parse_args().run
 
 #data generators
 train_dir = 'data/train'
-val_dir = 'data/test'
+test_dir = 'data/test'
 
 num_train = 28709
 num_val = 7178
@@ -36,7 +36,7 @@ train_generator = train_datagen.flow_from_directory(
         class_mode='categorical')
 
 validation_generator = val_datagen.flow_from_directory(
-        val_dir,
+        test_dir,
         target_size=(48,48),
         batch_size=batch_size,
         color_mode="grayscale",
@@ -83,12 +83,12 @@ elif run == "test":
     cv2.ocl.setUseOpenCL(False)
 
     # dictionary which assigns each label an emotion (alphabetical order)
-    emotion_dict = {0: "Angry", 1: "Disgusted", 2: "Fearful", 3: "Happy", 4: "Neutral", 5: "Sad", 6: "Surprised"}
+    emotion_dict = {0: "ANGRY", 1: "DISGUSTED", 2: "FEARFUL", 3: "HAPPY", 4: "NEUTRAL", 5: "SAD", 6: "SURPRISED"}
 
-    # start the webcam feed
+
     cap = None
     if (USE_WEBCAM == True):
-       cap = cv2.VideoCapture(0) # Webcam source
+       cap = cv2.VideoCapture(0)
     else:
        cap = cv2.VideoCapture('./test/testvdo.mp4')
        
@@ -107,11 +107,12 @@ elif run == "test":
             cropped_img = np.expand_dims(np.expand_dims(cv2.resize(roi_gray, (48, 48)), -1), 0)
             prediction = model.predict(cropped_img)
             maxindex = int(np.argmax(prediction))
-            cv2.putText(frame, emotion_dict[maxindex], (x+20, y-60), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
+            cv2.putText(frame, emotion_dict[maxindex], (x+20, y-60), cv2. FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
 
-        cv2.imshow('Video', cv2.resize(frame,(1600,960),interpolation = cv2.INTER_CUBIC))
+        cv2.imshow('Video', cv2.resize(frame,(1400,1200),interpolation = cv2.INTER_CUBIC))
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
     cap.release()
     cv2.destroyAllWindows()
+
