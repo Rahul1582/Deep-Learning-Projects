@@ -43,5 +43,16 @@ With a simple 4-layer CNN, the test accuracy reached 63% in 50 epochs.
 
 The [original FER2013 dataset in Kaggle](https://www.kaggle.com/deadskull7/fer2013) is available as a single csv file.
 
+### Demo
+
+Model Summary--
+<img src="images/summary.PNG" width=700 height=400>
+<br><br>
+
+<img src ="images/happy.PNG"  width=700 height=400>
+<br>
+<img src="images/surprised.PNG" width=700 height=400>
+<br>
+
 
 
