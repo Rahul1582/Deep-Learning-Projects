@@ -4,16 +4,15 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv2D,MaxPooling2D,Dense,Dropout,Flatten
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.optimizers import Adam
-
 import argparse
 
 
-USE_WEBCAM= False  # If true then it will use the webcam,untill it is False will detect the emotions in a video
+USE_WEBCAM= True  # If true then it will use the webcam,untill it is False will detect the emotions in a video file chosen.
 
 # Command Line Argument
 
 ap = argparse.ArgumentParser()
-ap.add_argument("--run",help="train/test")
+ap.add_argument("--run",help="train/test/picture")
 run = ap.parse_args().run
 
 #data generators
@@ -23,7 +22,7 @@ test_dir = 'data/test'
 train_num = 28709
 test_num = 7178
 batch_size = 64
-epochs = 50
+epochs = 70
 
 train_datagen = ImageDataGenerator(rescale=1./255)
 val_datagen = ImageDataGenerator(rescale=1./255)
@@ -41,6 +40,7 @@ validation_generator = val_datagen.flow_from_directory(
         batch_size=batch_size,
         color_mode="grayscale",
         class_mode='categorical')
+
 
 # The model
 model = Sequential()
@@ -61,7 +61,7 @@ model.add(Dense(1024, activation='relu'))
 model.add(Dropout(0.5))
 model.add(Dense(7, activation='softmax'))
 
-
+print(model.summary())
 # If you want to train the same model
 if run == "train":
     model.compile(loss='categorical_crossentropy',optimizer=Adam(lr=0.0001, decay=1e-6),metrics=['accuracy'])
@@ -128,10 +128,6 @@ elif run == "test":
     emotion_dict = {0: "ANGRY", 1: "DISGUSTED", 2: "FEARFUL", 3: "HAPPY", 4: "NEUTRAL", 5: "SAD", 6: "SURPRISED"}
     
     
-  
-
-
-
     cap = None
     if (USE_WEBCAM == True):
        cap = cv2.VideoCapture(0)
