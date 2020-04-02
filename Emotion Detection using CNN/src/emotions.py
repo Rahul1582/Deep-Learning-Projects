@@ -78,9 +78,9 @@ if run == "train":
 elif run =="picture":
     model.load_weights('model.h5')
 
-    # prevents openCL usage and unnecessary logging messages
+   
     cv2.ocl.setUseOpenCL(False)
-   # dictionary which assigns each label an emotion (alphabetical order)
+   
     emotion_dict = {0: "ANGRY", 1: "DISGUSTED", 2: "FEARFUL", 3: "HAPPY", 4: "NEUTRAL", 5: "SAD", 6: "SURPRISED"}
     
 
@@ -124,7 +124,7 @@ elif run == "test":
 
     # prevents openCL usage and unnecessary logging messages
     cv2.ocl.setUseOpenCL(False)
-   # dictionary which assigns each label an emotion (alphabetical order)
+ 
     emotion_dict = {0: "ANGRY", 1: "DISGUSTED", 2: "FEARFUL", 3: "HAPPY", 4: "NEUTRAL", 5: "SAD", 6: "SURPRISED"}
     
     
