@@ -1,16 +1,21 @@
 # Emotion-detection Using CNN
 
 This project aims to classify the emotion on a person's face into one of **seven categories**, using deep convolutional neural networks.
-The model is trained on the **FER-2013** dataset .
+The model is trained on the **FER-2013** dataset.
+
 ## Dependencies
 
 To install the required packages, run `pip install -r requirements.txt`.
 
 ## Technologies Used
-
+```
 1.Python
+
 2.Convolution Neural Network(CNN)
+
 3.Open CV
+
+```
 
 ## To Run
 
@@ -46,12 +51,13 @@ The [original FER2013 dataset in Kaggle](https://www.kaggle.com/deadskull7/fer20
 ### Demo
 
 Model Summary--
-<img src="images/summary.PNG" width=700 height=400>
+<img src="images/summary.PNG" width=700 height=600>
 <br><br>
 
-<img src ="images/happy.PNG"  width=700 height=400>
+<img src ="images/happy.PNG"  width=700 height=500>
 <br>
-<img src="images/surprised.PNG" width=700 height=400>
+
+<img src="images/surprised.PNG" width=700 height=500>
 <br>
 
 
