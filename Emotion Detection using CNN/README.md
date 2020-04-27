@@ -15,6 +15,7 @@ To install the required packages, run `pip install -r requirements.txt`.
 
 3.Open CV
 
+4.Data Augmentation
 ```
 
 ## To Run
