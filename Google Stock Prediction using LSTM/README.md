@@ -14,7 +14,7 @@ We used Long Short-Term Memory networks (LSTM) for our prediction. We have predi
 ### Screenshot
 
 
-<img src="result.PNG" width=700 height=800>
+<img src="result.PNG" width=800 height=450>
 
 
 ### Author 
